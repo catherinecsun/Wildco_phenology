@@ -1,6 +1,5 @@
 ##############################################################
 # Timelapse_Phenopix_3_PhenoFit_Annually.R
-# Created by by Cat - 09 Oct 2019
 # combine VI's across deployment periods/seasons for a site to fit curves to do full 1 year of phenology extraction  
 # this does 3 two-stagefits: Spline+TRS, Spline+Klosterman, and Klosterman+Klosterman
 # The first stage fits a curve to reduce the influence of a single obs to an cature the seasonal behavir
@@ -29,7 +28,10 @@ OutputDir <- "Output"
 setwd(OutputDir)
 
 # if a year at a site has less data than this, the fitted curves and therefore pheno dates are probably crap
-minPropOfYear<-0.2 # threshold below which you dont want the results for a site in a year
+# threshold below which you dont want the results for a site in a year
+# for the purposes of this demo, this threshold is very low so that we can complete this script with the small batch of timelapse photos
+# if you have too few timelapse images, DO NOT TRUST THE CURVES OR EXTRACTED DATES.
+minPropOfYear<-0.05 
 
 #the site(s) you want to do, can be a single site or vector of multiple.
 Sites<-c("CATH08")
@@ -708,9 +710,9 @@ for(i in 1:length(Sites)){
   #save(thingsToSaveToFile,file = paste0(OutputDir,"Rdata/","PhenopixAnalysisResults_",Sites[i],".RData"))
   
   save.image(file = paste0("./Rdata/","PhenopixAnalysisResults_",Sites[i],".RData"))
-  rm(list=setdiff(ls(), c("OutputDir",
-                          "Sites","DataShift",
-                          "i","cam_trs_cat","minPropOfYear")))
+  # rm(list=setdiff(ls(), c("OutputDir",
+  #                         "Sites","DataShift",
+  #                         "i","cam_trs_cat","minPropOfYear")))
 }# per site 
 
 
